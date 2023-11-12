@@ -1,12 +1,13 @@
-print(bytes([160, 160, 255]).decode('cp437'))
+import matplotlib.pyplot as plt
 
-x = 'eae vei'
-y = bytes([176, 160, 250]).decode('cp437')
-print(y)
+lista = []
+for i in range(0, 10):
+    lista += 2 * [i]
 
-print(x.encode(encoding='cp437'))
+print(lista)
 
-print(ord('o'))
-print(ord('ó'.encode('cp437')))
+'''x = [0, 1, 1, 2, 2]
+y = [1, 1, 0, 0, 1]
 
-
+plt.plot(x, y)
+plt.show()'''

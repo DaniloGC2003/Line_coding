@@ -1,21 +1,40 @@
 import tkinter as tk
 import encoding as enc
+import plotting as pltn
+import NRZ_level as nrzl
 
 BACKGROUND_COLOR = "#dde"
 ENCODING = 'cp860'
-CHAVE = 321
+CHAVE = 3
 
 numericValuesString = []
 stringCriptografada = ''
+stringCriptografadaValues = []
+stringBinariaMsgCriptografada = ''
+msgCodificacaoLinha = []
 
 def retrieve_mensagem():
     mensagem = input_mensagem.get()
     print(input_mensagem.get())
     numericValuesString = enc.getNumericValue(mensagem)
     print(numericValuesString)
-    stringCriptografada = enc.criptografar(numericValuesString, CHAVE)
+    stringCriptografadaValues = enc.criptografar(numericValuesString, CHAVE)
+    print(stringCriptografadaValues)
+    stringCriptografada = enc.bytes_to_string(stringCriptografadaValues)
+    print(stringCriptografada)
 
-    display_mensagem_criptografada.config(text=bytes(stringCriptografada).decode(ENCODING))
+    display_mensagem_criptografada.config(text=stringCriptografada)
+
+    #mostrar bits de msg cripografada 
+    stringBinariaMsgCriptografada = enc.get_bits(stringCriptografadaValues)
+    print(stringBinariaMsgCriptografada)
+
+    msgCodificacaoLinha = nrzl.NRZ_L_encode(stringBinariaMsgCriptografada)
+    print(msgCodificacaoLinha)
+    print('comprimento da msg codificada: ' + str(len(msgCodificacaoLinha)))
+
+    #plota grafico
+    pltn.plot_graph(msgCodificacaoLinha, nrzl.NRZ_L_yaxis(msgCodificacaoLinha))
 
 
 janela = tk.Tk()
