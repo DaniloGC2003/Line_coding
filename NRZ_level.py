@@ -27,4 +27,14 @@ def NRZ_L_yaxis(voltage_list):#retorna lista utilizada para construir grafico
             yaxis.append(voltage_list[i])
     return yaxis
 
+def NRZ_L_decode(voltage_list):#recebe lista de tensoes, retorna string de bits
+    bit_string = ''
+    for i in range(0, len(voltage_list)):
+        if voltage_list[i] == 1:
+            bit_string += '0'
+        else:
+            bit_string += '1'
+    return bit_string
+
+
 

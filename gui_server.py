@@ -3,6 +3,9 @@ import encoding as enc
 import plotting as pltn
 import NRZ_level as nrzl
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import matplotlib.pyplot as plt
+from tkinter import messagebox
+
 #import server as srv
 
 BACKGROUND_COLOR = "#dde"
@@ -16,9 +19,15 @@ stringBinariaMsgCriptografada = ''
 msgCodificacaoLinha = []
 figure_grafico = None
 
+stringBinaria_tensoesParaBits = ''
+BitsParaListaInts = []
+listaInts_decriptografados = []
+
+
+
 def retrieve_mensagem():
     mensagem = input_mensagem.get()
-    print(input_mensagem.get())
+    print('mensagem original: ' + input_mensagem.get())
     numericValuesString = enc.getNumericValue(mensagem)
     print(numericValuesString)
     stringCriptografadaValues = enc.criptografar(numericValuesString, CHAVE)
@@ -37,6 +46,25 @@ def retrieve_mensagem():
     print(msgCodificacaoLinha)
     print('comprimento da msg codificada: ' + str(len(msgCodificacaoLinha)))
 
+    #pegar tensoes, transforma em bits
+    stringBinaria_tensoesParaBits = nrzl.NRZ_L_decode(msgCodificacaoLinha)
+    print('de tensoes para bits: ' + stringBinaria_tensoesParaBits)
+
+    #pega bits, transforma em ints:
+    print('bits pra ints: ')
+    BitsParaListaInts = enc.BitStringToBytes(nrzl.NRZ_L_decode(msgCodificacaoLinha))
+    print(BitsParaListaInts)
+
+    #decriptografa lista de ints:
+    listaInts_decriptografados = enc.decriptografar(BitsParaListaInts, CHAVE)
+    print('lista de ints originais: ')
+    print(listaInts_decriptografados)
+
+    #mensagem oriignal: 
+    print('mensagem original: ' + enc.bytes_to_string(listaInts_decriptografados))
+
+
+
     #plota grafico
     figure_grafico = pltn.plot_graph(msgCodificacaoLinha, nrzl.NRZ_L_yaxis(msgCodificacaoLinha))
     graph_frame = tk.Frame(janela)
@@ -48,7 +76,7 @@ def retrieve_mensagem():
 
 janela = tk.Tk()
 janela.title("Codificação de linha")
-janela.geometry("500x300")
+#janela.geometry("500x300")
 janela.configure(background=BACKGROUND_COLOR)
 
 label_input_mensagem = tk.Label(janela, text='Mensagem original:', 
@@ -69,6 +97,14 @@ display_mensagem_criptografada = tk.Label(janela, background=BACKGROUND_COLOR,
 display_mensagem_criptografada.grid(column=0, row=4)
 
 
+def on_closing():
+    if messagebox.askokcancel("Quit", "Do you want to quit?"):
+        janela.quit()
+        janela.destroy()
 
+
+janela.protocol("WM_DELETE_WINDOW", on_closing)
 janela.mainloop() 
+print('oi')
+plt.close()
 

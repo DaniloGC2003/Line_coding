@@ -1,3 +1,4 @@
+from textwrap import wrap
 
 ENCODING = 'cp860'
 
@@ -21,7 +22,7 @@ def decriptografar(bytes, key):
         bytes_decriptografados.append(new_byte)
     return bytes_decriptografados
 
-def get_bits(bytes):#recebe lista com inteiros. retorna string de bits
+def get_bits(bytes):#recebe lista com inteiros. retorna string de bits    FIX
     msg_in_bits = ''
     for byte in bytes:
         msg_in_bits += int_to_binString(byte)
@@ -32,10 +33,23 @@ def int_to_binString(num):#recebe int, retorna string de bits
     bin_string = ''
     for i in range(2, len(bin_num)):
         bin_string += bin_num[i]
+    while len(bin_string) != 8:
+        bin_string = '0' + bin_string
     return bin_string
 
 def bytes_to_string(byte_list):
     return bytes(byte_list).decode(ENCODING)
+
+def BitStringToBytes(bit_string):#recebe string de bits, retorna lista com valores inteiros
+    bytes = []
+    separated_bits = wrap(bit_string, 8)
+
+    for bits in separated_bits:
+        bytes.append(int(bits, 2))
+    
+    return bytes
+
+
 
 
 '''
