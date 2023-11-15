@@ -11,7 +11,8 @@ def getNumericValue(msg):#retorna lista com valores dos caracteres da string de 
 def criptografar(bytes, key):#retorna lista de valores numericos criptografados
     bytes_criptogrfados = []
     for byte in bytes:
-        new_byte = (byte + key) % 256
+        # operacao bit a bit seguida de deslocamento
+        new_byte = ((byte ^ key) + key) % 256
         bytes_criptogrfados.append(new_byte)
     return bytes_criptogrfados
 
@@ -19,6 +20,7 @@ def decriptografar(bytes, key):
     bytes_decriptografados = []
     for byte in bytes:
         new_byte = (byte - key) % 256
+        new_byte = (new_byte ^ key)
         bytes_decriptografados.append(new_byte)
     return bytes_decriptografados
 
