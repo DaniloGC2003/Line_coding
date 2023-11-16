@@ -15,7 +15,7 @@ def plot_graph(voltage_list, y_axis):
         x_axis += 2 * [i]
     print('x: ' + str(len(x_axis)))
     print(len(y_axis))
-    #plt.plot(x_axis, y_axis)
+    #plot.plot(x_axis, y_axis)
     fig, ax = plt.subplots()
     ax.plot(x_axis, y_axis)
     #plt.show()

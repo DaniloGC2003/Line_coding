@@ -3,10 +3,13 @@ import tkinter as tk
 import encoding as enc
 import plotting as pltn
 import NRZ_level as nrzl
+import RZ as rz
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.widgets import Slider
 import matplotlib.pyplot as plt
 from tkinter import messagebox
 import client
+import numpy as np
 
 #import server as srv
 
@@ -44,17 +47,17 @@ def retrieve_mensagem():
     print(stringBinariaMsgCriptografada)
 
     #usar codificacao de linha
-    msgCodificacaoLinha = nrzl.NRZ_L_encode(stringBinariaMsgCriptografada)
+    msgCodificacaoLinha = rz.RZ_encode(stringBinariaMsgCriptografada)
     print(msgCodificacaoLinha)
     print('comprimento da msg codificada: ' + str(len(msgCodificacaoLinha)))
 
     #pegar tensoes, transforma em bits
-    stringBinaria_tensoesParaBits = nrzl.NRZ_L_decode(msgCodificacaoLinha)
+    stringBinaria_tensoesParaBits = rz.RZ_decode(msgCodificacaoLinha)
     print('de tensoes para bits: ' + stringBinaria_tensoesParaBits)
 
     #pega bits, transforma em ints:
     print('bits pra ints: ')
-    BitsParaListaInts = enc.BitStringToBytes(nrzl.NRZ_L_decode(msgCodificacaoLinha))
+    BitsParaListaInts = enc.BitStringToBytes(stringBinaria_tensoesParaBits)
     print(BitsParaListaInts)
 
     #decriptografa lista de ints:
@@ -65,10 +68,8 @@ def retrieve_mensagem():
     #mensagem oriignal: 
     print('mensagem original: ' + enc.bytes_to_string(listaInts_decriptografados))
 
-
-
     #plota grafico
-    figure_grafico = pltn.plot_graph(msgCodificacaoLinha, nrzl.NRZ_L_yaxis(msgCodificacaoLinha))
+    figure_grafico = pltn.plot_graph(msgCodificacaoLinha, rz.RZ_yaxis(msgCodificacaoLinha))
     graph_frame = tk.Frame(frame_grafico, background=BACKGROUND_COLOR)
     graph_frame.grid(column=0, row=5)
     canvas = FigureCanvasTkAgg(figure_grafico, graph_frame)
