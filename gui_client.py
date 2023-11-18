@@ -3,6 +3,7 @@ import tkinter as tk
 import encoding as enc
 import plotting as pltn
 import NRZ_level as nrzl
+import NRZ_invert as nrzi
 import RZ as rz
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.widgets import Slider
@@ -147,6 +148,63 @@ def executar_RZ(mensagem):
     canvas.draw()
     canvas.get_tk_widget().grid(column=0, row=6, padx=5, pady=5)
 
+def executar_NRZ_I(mensagem):
+    global numericValuesString
+    global stringCriptografada
+    global stringCriptografadaValues
+    global stringBinariaMsgCriptografada
+    global msgCodificacaoLinha
+    global figure_grafico
+    global stringBinaria_tensoesParaBits
+    global BitsParaListaInts
+    global listaInts_decriptografados
+
+    numericValuesString = enc.getNumericValue(mensagem)
+    print(numericValuesString)
+    stringCriptografadaValues = enc.criptografar(numericValuesString, CHAVE)
+    print(stringCriptografadaValues)
+    stringCriptografada = enc.bytes_to_string(stringCriptografadaValues)
+    print(stringCriptografada)
+
+    # colocar msg criptografada na tela
+    display_mensagem_criptografada.config(text=stringCriptografada)
+
+    # mostrar bits de msg cripografada
+    stringBinariaMsgCriptografada = enc.get_bits(stringCriptografadaValues)
+    print(stringBinariaMsgCriptografada)
+
+    # usar codificacao de linha
+    msgCodificacaoLinha = nrzi.NRZ_I_encode(stringBinariaMsgCriptografada)
+    print(msgCodificacaoLinha)
+    print('comprimento da msg codificada: ' + str(len(msgCodificacaoLinha)))
+
+    # pegar tensoes, transforma em bits
+    stringBinaria_tensoesParaBits = nrzi.NRZ_I_decode(msgCodificacaoLinha)
+    print('de tensoes para bits: ' + stringBinaria_tensoesParaBits)
+
+    # pega bits, transforma em ints:
+    print('bits pra ints: ')
+    BitsParaListaInts = enc.BitStringToBytes(stringBinaria_tensoesParaBits)
+    print(BitsParaListaInts)
+
+    # decriptografa lista de ints:
+    listaInts_decriptografados = enc.decriptografar(BitsParaListaInts, CHAVE)
+    print('lista de ints originais: ')
+    print(listaInts_decriptografados)
+
+    # mensagem oriignal:
+    print('mensagem original: ' + enc.bytes_to_string(listaInts_decriptografados))
+
+    # plota grafico
+    for widget in frame_grafico.winfo_children():
+        widget.destroy()
+    figure_grafico = pltn.plot_graph(
+        msgCodificacaoLinha, nrzi.NRZ_I_yaxis(msgCodificacaoLinha))
+    # graph_frame = tk.Frame(frame_grafico, background=BACKGROUND_COLOR)
+    # graph_frame.grid(column=0, row=5)
+    canvas = FigureCanvasTkAgg(figure_grafico, frame_grafico)
+    canvas.draw()
+    canvas.get_tk_widget().grid(column=0, row=6, padx=5, pady=5)
 
 def retrieve_mensagem():
     mensagem = input_mensagem.get()
@@ -160,6 +218,9 @@ def retrieve_mensagem():
     elif codificacao.get() == 'RZ':
         print('rz')
         executar_RZ(mensagem_original)
+    elif codificacao.get() == 'NRZ-I':
+        print('nrzi')
+        executar_NRZ_I(mensagem_original)
 
     # enviar mensagem ao servidor
     '''client.input_IP()
@@ -192,7 +253,7 @@ label_codificacao = tk.Label(
 label_codificacao.grid(column=0, row=0)
 codificacao = tk.StringVar()
 codificacao.set('NRZ-L')
-dropMenu = tk.OptionMenu(frame_codificacao, codificacao, 'NRZ-L', 'RZ')
+dropMenu = tk.OptionMenu(frame_codificacao, codificacao, 'NRZ-L', 'RZ', 'NRZ-I')
 dropMenu.grid(column=1, row=0)
 
 frame_mensagem_criptografada = tk.Frame(janela, background=BACKGROUND_COLOR)

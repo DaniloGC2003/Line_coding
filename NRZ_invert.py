@@ -32,8 +32,19 @@ def NRZ_I_yaxis(voltage_list):#retorna lista utilizada para construir grafico
 def NRZ_I_decode(voltage_list):#recebe lista de tensoes, retorna string de bits
     bit_string = ''
     for i in range(0, len(voltage_list)):
-        pass
+        if i == 0:
+            if voltage_list[0] == 1:#nao houve inversao
+                bit_string += '0'
+            elif voltage_list[0] == -1:#houve inversao
+                bit_string += '1'
+        else:
+            if voltage_list[i-1] != voltage_list[i]:#houve inversao
+                bit_string += '1'
+            elif voltage_list[i-1] == voltage_list[i]:
+                bit_string += '0'
+    return bit_string
 
-print(NRZ_I_encode('101001110'))
-    
+'''voltage_lista = NRZ_I_encode('101001110')
+print(voltage_lista)
+print(NRZ_I_decode(voltage_lista))'''
          
