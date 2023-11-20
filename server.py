@@ -14,7 +14,10 @@ print(SERVER)
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind(ADDR)
 
+mensagem_recebida = ''
+
 def handle_client(conn, addr):
+    global mensagem_recebida
     print(f"[NEW CONNECTION] {addr} connected")
 
     connected = True
@@ -25,11 +28,16 @@ def handle_client(conn, addr):
             msg = conn.recv(msg_length).decode(FORMAT)
             if msg ==  DISCONNECT_MESSAGE:
                 connected = False
+            else:
+                mensagem_recebida = msg
 
             print(f"[{addr}] {msg}")
             conn.send("Msg received".encode(FORMAT))
 
     conn.close()
+    print('msg recebida: ')
+    print(mensagem_recebida)
+    
 
 
 def start():

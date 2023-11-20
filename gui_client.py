@@ -9,7 +9,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.widgets import Slider
 import matplotlib.pyplot as plt
 from tkinter import messagebox
-import client
+#import client
 import numpy as np
 
 # import server as srv
@@ -88,7 +88,6 @@ def executar_NRZL(mensagem):
     canvas = FigureCanvasTkAgg(figure_grafico, frame_grafico)
     canvas.draw()
     canvas.get_tk_widget().grid(column=0, row=6, padx=5, pady=5)
-
 
 def executar_RZ(mensagem):
     global numericValuesString
