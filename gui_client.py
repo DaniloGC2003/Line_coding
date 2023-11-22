@@ -16,7 +16,7 @@ import numpy as np
 
 BACKGROUND_COLOR = "#dde"
 ENCODING = 'cp860'
-CHAVE = 126
+CHAVE = 76
 
 mensagem_original = ''
 numericValuesString = []

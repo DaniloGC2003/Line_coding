@@ -30,6 +30,6 @@ def send(msg, socket):
     print(socket.recv(2048).decode(FORMAT))
 
 input_IP()
-send("[-1, 1, 1, 1, 1, -1, 1, 1]", connect_socket())
-input()
-send(DISCONNECT_MESSAGE, connect_socket())
+send("[-1, 1, 1, 1, 1, 1, 1, 1]", connect_socket())
+#input()
+#send(DISCONNECT_MESSAGE, connect_socket())

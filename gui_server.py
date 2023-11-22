@@ -52,6 +52,7 @@ def handle_client(conn, addr):
                 connected = False
             else:
                 mensagem_recebida = msg
+                connected = False
 
             print(f"[{addr}] {msg}")
             conn.send("Msg received".encode(FORMAT))
@@ -67,8 +68,9 @@ def start():
     print(f"[LISTENING] Server is Listening on {SERVER}")
     while True:
         conn, addr = server.accept()
-        thread = threading.Thread(target=handle_client, args=(conn, addr))
-        thread.start()
+        #thread = threading.Thread(target=handle_client, args=(conn, addr))
+        #thread.start()
+        handle_client(conn, addr)
         print(f"[ACTIVE CONNECTIONS] {threading.active_count() - 1}")
     
 
@@ -79,6 +81,10 @@ def open_window():
         pass
 
     def executar_NRZL(frame):
+        global stringBinaria_tensoesParaBits
+        global BitsParaListaInts
+        global listaInts_decriptografados
+
         print('printa grafico')
         for widget in frame.winfo_children():
             widget.destroy()
@@ -87,6 +93,26 @@ def open_window():
         canvas = FigureCanvasTkAgg(figure_grafico, frame_grafico)
         canvas.draw()
         canvas.get_tk_widget().grid(column=0, row=6, padx=5, pady=5)
+
+        print('msg recebida list: ', end='')
+        print(mensagem_recebida_list)
+        stringBinaria_tensoesParaBits = nrzl.NRZ_L_decode(mensagem_recebida_list)
+        print('de tensoes para bits: ' + stringBinaria_tensoesParaBits)
+        BitsParaListaInts = enc.BitStringToBytes(stringBinaria_tensoesParaBits)
+        print('string to byets: ', end='')
+        print(BitsParaListaInts)
+
+        display_mensagem_criptografada.config(text=enc.bytes_to_string(BitsParaListaInts))
+
+        listaInts_decriptografados = enc.decriptografar(BitsParaListaInts, CHAVE)
+        print('lista de ints originais: ', end='')
+        print(listaInts_decriptografados)
+
+        display_mensagem_original.config(text=enc.bytes_to_string(listaInts_decriptografados))
+
+
+
+
         
 
     def executar_RZ(frame):
@@ -108,6 +134,14 @@ def open_window():
         elif codificacao.get() == 'RZ':
             executar_RZ(frame_grafico)
 
+
+
+    def on_closing():
+        if messagebox.askokcancel("Quit", "Você quer sair?"):
+            janela.quit()
+            janela.destroy()
+
+
     global window_open
     window_open = True
 
@@ -117,42 +151,54 @@ def open_window():
     janela.configure(background=BACKGROUND_COLOR)
 
     frame_input = tk.Frame(janela, background=BACKGROUND_COLOR)
-    frame_input.grid(row=0, column=0)
-    label_input_mensagem = tk.Label(frame_input, text='Mensagem original:',
-                                    background=BACKGROUND_COLOR,
-                                    padx=5, pady=5)
-    label_input_mensagem.grid(column=0, row=0)
-    input_mensagem = tk.Entry(frame_input, width=40, borderwidth=2)
-    input_mensagem.grid(column=0, row=1, padx=5, pady=5)
-    button_input_mensagem = tk.Button(
-        frame_input, text='Enter', command=retrieve_mensagem)
-    button_input_mensagem.grid(column=1, row=1, pady=5)
+    frame_input.grid(row=1, column=0)
+    #label_input_mensagem = tk.Label(frame_input, text='Mensagem original:',
+     #                               background=BACKGROUND_COLOR,
+      #                              padx=5, pady=5)
+    #label_input_mensagem.grid(column=0, row=0)
+    #input_mensagem = tk.Entry(frame_input, width=40, borderwidth=2)
+    #input_mensagem.grid(column=0, row=1, padx=5, pady=5)
 
-    frame_codificacao = tk.Frame(janela, background=BACKGROUND_COLOR)
-    frame_codificacao.grid(row=1, column=0)
+
+    frame_codificacao = tk.Frame(janela, background=BACKGROUND_COLOR, padx=5, pady=5)
+    frame_codificacao.grid(row=0, column=0)
     label_codificacao = tk.Label(
-        frame_codificacao, text='algoritmo de codificação de linha a ser usado: ', background=BACKGROUND_COLOR)
+        frame_codificacao, text='algoritmo de codificação de linha a ser usado: ', background=BACKGROUND_COLOR, padx=5, pady=5)
     label_codificacao.grid(column=0, row=0)
     codificacao = tk.StringVar()
     codificacao.set('NRZ-L')
     dropMenu = tk.OptionMenu(frame_codificacao, codificacao, 'NRZ-L', 'RZ', 'NRZ-I')
     dropMenu.grid(column=1, row=0)
 
-    frame_mensagem_criptografada = tk.Frame(janela, background=BACKGROUND_COLOR)
-    frame_mensagem_criptografada.grid(row=2, column=0)
-    label_mensagem_criptografada = tk.Label(frame_mensagem_criptografada, text='Mensagem criptografada:',
+    button_input_mensagem = tk.Button(
+        frame_input, text='Enter', command=retrieve_mensagem)
+    button_input_mensagem.grid(column=1, row=1, pady=5)
+
+    frame_grafico = tk.Frame(janela, background=BACKGROUND_COLOR)
+    frame_grafico.grid(row=2, column=0)
+
+    frame_mensagens = tk.Frame(janela, background=BACKGROUND_COLOR)
+    frame_mensagens.grid(row=3, column=0)
+    label_mensagem_criptografada = tk.Label(frame_mensagens, text='Mensagem criptografada:',
                                             background=BACKGROUND_COLOR,
                                             padx=5, pady=5)
     label_mensagem_criptografada.grid(column=0, row=0)
-    display_mensagem_criptografada = tk.Label(frame_mensagem_criptografada, background=BACKGROUND_COLOR,
-                                            padx=5, pady=5)
+    display_mensagem_criptografada = tk.Label(frame_mensagens, background=BACKGROUND_COLOR,
+                                            padx=5, text='weima')
     display_mensagem_criptografada.grid(column=0, row=1)
 
-    frame_grafico = tk.Frame(janela, background=BACKGROUND_COLOR)
-    frame_grafico.grid(row=3, column=0)
+    label_mensagem_original = tk.Label(frame_mensagens, background=BACKGROUND_COLOR, padx=5, pady=5, text='Mensagem original:')
+    label_mensagem_original.grid(column=0, row=2)
+    display_mensagem_original = tk.Label(frame_mensagens, background=BACKGROUND_COLOR, padx=5, text='fala tu topera')
+    display_mensagem_original.grid(column=0, row=3)
 
+    
+    
+
+    janela.protocol("WM_DELETE_WINDOW", on_closing)
     janela.mainloop()
 
     window_open = False
 
 start()
+open_window()
