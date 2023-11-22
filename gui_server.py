@@ -146,39 +146,35 @@ def open_window():
     window_open = True
 
     janela = tk.Tk()
-    janela.title("Codificação de linha")
-    # janela.geometry("700x700")
+    janela.title("Codificação de linha - servidor")
     janela.configure(background=BACKGROUND_COLOR)
 
-    frame_input = tk.Frame(janela, background=BACKGROUND_COLOR)
-    frame_input.grid(row=1, column=0)
-    #label_input_mensagem = tk.Label(frame_input, text='Mensagem original:',
-     #                               background=BACKGROUND_COLOR,
-      #                              padx=5, pady=5)
-    #label_input_mensagem.grid(column=0, row=0)
-    #input_mensagem = tk.Entry(frame_input, width=40, borderwidth=2)
-    #input_mensagem.grid(column=0, row=1, padx=5, pady=5)
+    label_endereco_servidor = tk.Label(janela, text='IP do servidor: ' + SERVER, justify='left', background=BACKGROUND_COLOR, padx=5, pady=5)
+    label_endereco_servidor.grid(row=0, column=0)
 
+    frame_input = tk.Frame(janela, background=BACKGROUND_COLOR)
+    frame_input.grid(row=2, column=0)
 
     frame_codificacao = tk.Frame(janela, background=BACKGROUND_COLOR, padx=5, pady=5)
-    frame_codificacao.grid(row=0, column=0)
+    frame_codificacao.grid(row=1, column=0)
+
     label_codificacao = tk.Label(
         frame_codificacao, text='algoritmo de codificação de linha a ser usado: ', background=BACKGROUND_COLOR, padx=5, pady=5)
-    label_codificacao.grid(column=0, row=0)
+    label_codificacao.grid(column=0, row=1)
     codificacao = tk.StringVar()
     codificacao.set('NRZ-L')
     dropMenu = tk.OptionMenu(frame_codificacao, codificacao, 'NRZ-L', 'RZ', 'NRZ-I')
-    dropMenu.grid(column=1, row=0)
+    dropMenu.grid(column=1, row=1)
 
     button_input_mensagem = tk.Button(
         frame_input, text='Enter', command=retrieve_mensagem)
     button_input_mensagem.grid(column=1, row=1, pady=5)
 
     frame_grafico = tk.Frame(janela, background=BACKGROUND_COLOR)
-    frame_grafico.grid(row=2, column=0)
+    frame_grafico.grid(row=3, column=0)
 
     frame_mensagens = tk.Frame(janela, background=BACKGROUND_COLOR)
-    frame_mensagens.grid(row=3, column=0)
+    frame_mensagens.grid(row=4, column=0)
     label_mensagem_criptografada = tk.Label(frame_mensagens, text='Mensagem criptografada:',
                                             background=BACKGROUND_COLOR,
                                             padx=5, pady=5)

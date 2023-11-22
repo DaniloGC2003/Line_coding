@@ -29,7 +29,7 @@ def send(msg, socket):
     socket.send(message)
     print(socket.recv(2048).decode(FORMAT))
 
-input_IP()
-send("[-1, 1, 1, 1, 1, 1, 1, 1]", connect_socket())
+#input_IP()
+#send("[-1, 1, 1, 1, 1, 1, 1, 1]", connect_socket())
 #input()
 #send(DISCONNECT_MESSAGE, connect_socket())

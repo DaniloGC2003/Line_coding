@@ -9,7 +9,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.widgets import Slider
 import matplotlib.pyplot as plt
 from tkinter import messagebox
-#import client
+import client
 import numpy as np
 
 # import server as srv
@@ -222,10 +222,10 @@ def retrieve_mensagem():
         executar_NRZ_I(mensagem_original)
 
     # enviar mensagem ao servidor
-    '''client.input_IP()
-    client.send(stringBinaria_tensoesParaBits, client.connect_socket())
-    input()
-    client.send(client.DISCONNECT_MESSAGE, client.connect_socket())'''
+    client.input_IP()
+    client.send(str(msgCodificacaoLinha), client.connect_socket())
+    #input()
+    #client.send(client.DISCONNECT_MESSAGE, client.connect_socket())
 
 
 janela = tk.Tk()
