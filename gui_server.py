@@ -2,6 +2,8 @@ import tkinter as tk
 import encoding as enc
 import plotting as pltn
 import NRZ_level as nrzl
+import NRZ_invert as nrzi
+import RZ as rz
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 from tkinter import messagebox
@@ -78,7 +80,36 @@ def start():
 
 def open_window():
     def executar_NRZI(frame):
-        pass
+        global stringBinaria_tensoesParaBits
+        global BitsParaListaInts
+        global listaInts_decriptografados
+
+        print('printa grafico')
+        #apaga elementos que estavam no frame
+        for widget in frame.winfo_children():
+            widget.destroy()
+        figure_grafico = pltn.plot_graph(
+            mensagem_recebida_list, nrzi.NRZ_I_yaxis(mensagem_recebida_list))
+        canvas = FigureCanvasTkAgg(figure_grafico, frame_grafico)
+        canvas.draw()
+        canvas.get_tk_widget().grid(column=0, row=6, padx=5, pady=5)
+
+        print('msg recebida list: ', end='')
+        print(mensagem_recebida_list)
+        stringBinaria_tensoesParaBits = nrzi.NRZ_I_decode(mensagem_recebida_list)
+        print('de tensoes para bits: ' + stringBinaria_tensoesParaBits)
+        BitsParaListaInts = enc.BitStringToBytes(stringBinaria_tensoesParaBits)
+        print('string to byets: ', end='')
+        print(BitsParaListaInts)
+
+        display_mensagem_criptografada.config(text=enc.bytes_to_string(BitsParaListaInts))
+
+        listaInts_decriptografados = enc.decriptografar(BitsParaListaInts, CHAVE)
+        print('lista de ints originais: ', end='')
+        print(listaInts_decriptografados)
+
+        display_mensagem_original.config(text=enc.bytes_to_string(listaInts_decriptografados))
+
 
     def executar_NRZL(frame):
         global stringBinaria_tensoesParaBits
@@ -111,12 +142,36 @@ def open_window():
         display_mensagem_original.config(text=enc.bytes_to_string(listaInts_decriptografados))
 
 
-
-
-        
-
     def executar_RZ(frame):
-        pass
+        global stringBinaria_tensoesParaBits
+        global BitsParaListaInts
+        global listaInts_decriptografados
+
+        print('printa grafico')
+        #apaga elementos que estavam no frame
+        for widget in frame.winfo_children():
+            widget.destroy()
+        figure_grafico = pltn.plot_graph(
+            mensagem_recebida_list, rz.RZ_yaxis(mensagem_recebida_list))
+        canvas = FigureCanvasTkAgg(figure_grafico, frame_grafico)
+        canvas.draw()
+        canvas.get_tk_widget().grid(column=0, row=6, padx=5, pady=5)
+
+        print('msg recebida list: ', end='')
+        print(mensagem_recebida_list)
+        stringBinaria_tensoesParaBits = rz.RZ_decode(mensagem_recebida_list)
+        print('de tensoes para bits: ' + stringBinaria_tensoesParaBits)
+        BitsParaListaInts = enc.BitStringToBytes(stringBinaria_tensoesParaBits)
+        print('string to byets: ', end='')
+        print(BitsParaListaInts)
+
+        display_mensagem_criptografada.config(text=enc.bytes_to_string(BitsParaListaInts))
+
+        listaInts_decriptografados = enc.decriptografar(BitsParaListaInts, CHAVE)
+        print('lista de ints originais: ', end='')
+        print(listaInts_decriptografados)
+
+        display_mensagem_original.config(text=enc.bytes_to_string(listaInts_decriptografados))
 
     def retrieve_mensagem():
         global mensagem_recebida_list
@@ -180,12 +235,12 @@ def open_window():
                                             padx=5, pady=5)
     label_mensagem_criptografada.grid(column=0, row=0)
     display_mensagem_criptografada = tk.Label(frame_mensagens, background=BACKGROUND_COLOR,
-                                            padx=5, text='weima')
+                                            padx=5)
     display_mensagem_criptografada.grid(column=0, row=1)
 
     label_mensagem_original = tk.Label(frame_mensagens, background=BACKGROUND_COLOR, padx=5, pady=5, text='Mensagem original:')
     label_mensagem_original.grid(column=0, row=2)
-    display_mensagem_original = tk.Label(frame_mensagens, background=BACKGROUND_COLOR, padx=5, text='fala tu topera')
+    display_mensagem_original = tk.Label(frame_mensagens, background=BACKGROUND_COLOR, padx=5)
     display_mensagem_original.grid(column=0, row=3)
 
     

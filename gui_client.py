@@ -12,8 +12,6 @@ from tkinter import messagebox
 import client
 import numpy as np
 
-# import server as srv
-
 BACKGROUND_COLOR = "#dde"
 ENCODING = 'cp860'
 CHAVE = 76
@@ -210,27 +208,22 @@ def retrieve_mensagem():
     mensagem_original = mensagem
     print('mensagem original: ' + input_mensagem.get())
 
-    print(codificacao.get())
     if codificacao.get() == 'NRZ-L':
-        print('nrzal')
         executar_NRZL(mensagem_original)
     elif codificacao.get() == 'RZ':
-        print('rz')
         executar_RZ(mensagem_original)
     elif codificacao.get() == 'NRZ-I':
-        print('nrzi')
         executar_NRZ_I(mensagem_original)
 
-    # enviar mensagem ao servidor
-    client.input_IP()
+def setServerData():
+    client.server_address = input_IP.get()
+    client.addr = (client.server_address, client.PORT)
+
     client.send(str(msgCodificacaoLinha), client.connect_socket())
-    #input()
-    #client.send(client.DISCONNECT_MESSAGE, client.connect_socket())
 
 
 janela = tk.Tk()
 janela.title("Codificação de linha")
-# janela.geometry("700x700")
 janela.configure(background=BACKGROUND_COLOR)
 
 frame_input = tk.Frame(janela, background=BACKGROUND_COLOR)
@@ -243,7 +236,16 @@ input_mensagem = tk.Entry(frame_input, width=40, borderwidth=2)
 input_mensagem.grid(column=0, row=1, padx=5, pady=5)
 button_input_mensagem = tk.Button(
     frame_input, text='Enter', command=retrieve_mensagem)
-button_input_mensagem.grid(column=1, row=1, pady=5)
+button_input_mensagem.grid(column=1, row=1, pady=5, padx=(5, 10))
+
+
+label_IP = tk.Label(frame_input, text='Endereço IP do servidor: ', background=BACKGROUND_COLOR)
+label_IP.grid(row=0, column=2)
+input_IP = tk.Entry(frame_input, width=40, borderwidth=2)
+input_IP.grid(column=2, row=1, padx=(10, 5), pady=5)
+button_input_IP = tk.Button(frame_input, text='Enter', command=setServerData)
+button_input_IP.grid(column=3, row=1, padx=5)
+
 
 frame_codificacao = tk.Frame(janela, background=BACKGROUND_COLOR)
 frame_codificacao.grid(row=1, column=0)
@@ -277,5 +279,4 @@ def on_closing():
 
 janela.protocol("WM_DELETE_WINDOW", on_closing)
 janela.mainloop()
-print('oi')
 plt.close()
