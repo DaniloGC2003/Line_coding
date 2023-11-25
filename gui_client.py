@@ -41,40 +41,40 @@ def executar_NRZL(mensagem):
     global listaInts_decriptografados
 
     numericValuesString = enc.getNumericValue(mensagem)
-    print(numericValuesString)
+    #print(numericValuesString)
     stringCriptografadaValues = enc.criptografar(numericValuesString, CHAVE)
-    print(stringCriptografadaValues)
+    #print(stringCriptografadaValues)
     stringCriptografada = enc.bytes_to_string(stringCriptografadaValues)
-    print(stringCriptografada)
+    #print(stringCriptografada)
 
-    # colocar msg criptografada na tela
-    display_mensagem_criptografada.config(text=stringCriptografada)
+    
 
     # mostrar bits de msg cripografada
     stringBinariaMsgCriptografada = enc.get_bits(stringCriptografadaValues)
-    print(stringBinariaMsgCriptografada)
+    #print(stringBinariaMsgCriptografada)
 
     # usar codificacao de linha
     msgCodificacaoLinha = nrzl.NRZ_L_encode(stringBinariaMsgCriptografada)
-    print(msgCodificacaoLinha)
-    print('comprimento da msg codificada: ' + str(len(msgCodificacaoLinha)))
+    #print(msgCodificacaoLinha)
+    #print('comprimento da msg codificada: ' + str(len(msgCodificacaoLinha)))
 
     # pegar tensoes, transforma em bits
     stringBinaria_tensoesParaBits = nrzl.NRZ_L_decode(msgCodificacaoLinha)
-    print('de tensoes para bits: ' + stringBinaria_tensoesParaBits)
+    #print('de tensoes para bits: ' + stringBinaria_tensoesParaBits)
 
     # pega bits, transforma em ints:
-    print('bits pra ints: ')
+    #print('bits pra ints: ')
     BitsParaListaInts = enc.BitStringToBytes(stringBinaria_tensoesParaBits)
-    print(BitsParaListaInts)
+    #print(BitsParaListaInts)
 
     # decriptografa lista de ints:
     listaInts_decriptografados = enc.decriptografar(BitsParaListaInts, CHAVE)
-    print('lista de ints originais: ')
-    print(listaInts_decriptografados)
+    #print('lista de ints originais: ')
+    #print(listaInts_decriptografados)
 
     # mensagem oriignal:
-    print('mensagem original: ' + enc.bytes_to_string(listaInts_decriptografados))
+    #print('mensagem original: ' + enc.bytes_to_string(listaInts_decriptografados))
+
 
     # plota grafico
     for widget in frame_grafico.winfo_children():
@@ -99,40 +99,40 @@ def executar_RZ(mensagem):
     global listaInts_decriptografados
 
     numericValuesString = enc.getNumericValue(mensagem)
-    print(numericValuesString)
+    #print(numericValuesString)
     stringCriptografadaValues = enc.criptografar(numericValuesString, CHAVE)
-    print(stringCriptografadaValues)
+    #print(stringCriptografadaValues)
     stringCriptografada = enc.bytes_to_string(stringCriptografadaValues)
-    print(stringCriptografada)
+    #print(stringCriptografada)
 
     # colocar msg criptografada na tela
     display_mensagem_criptografada.config(text=stringCriptografada)
 
     # mostrar bits de msg cripografada
     stringBinariaMsgCriptografada = enc.get_bits(stringCriptografadaValues)
-    print(stringBinariaMsgCriptografada)
+    #print(stringBinariaMsgCriptografada)
 
     # usar codificacao de linha
     msgCodificacaoLinha = rz.RZ_encode(stringBinariaMsgCriptografada)
-    print(msgCodificacaoLinha)
-    print('comprimento da msg codificada: ' + str(len(msgCodificacaoLinha)))
+    #print(msgCodificacaoLinha)
+    #print('comprimento da msg codificada: ' + str(len(msgCodificacaoLinha)))
 
     # pegar tensoes, transforma em bits
     stringBinaria_tensoesParaBits = rz.RZ_decode(msgCodificacaoLinha)
-    print('de tensoes para bits: ' + stringBinaria_tensoesParaBits)
+    #print('de tensoes para bits: ' + stringBinaria_tensoesParaBits)
 
     # pega bits, transforma em ints:
-    print('bits pra ints: ')
+    #print('bits pra ints: ')
     BitsParaListaInts = enc.BitStringToBytes(stringBinaria_tensoesParaBits)
-    print(BitsParaListaInts)
+    #print(BitsParaListaInts)
 
     # decriptografa lista de ints:
     listaInts_decriptografados = enc.decriptografar(BitsParaListaInts, CHAVE)
-    print('lista de ints originais: ')
-    print(listaInts_decriptografados)
+    #print('lista de ints originais: ')
+    #print(listaInts_decriptografados)
 
     # mensagem oriignal:
-    print('mensagem original: ' + enc.bytes_to_string(listaInts_decriptografados))
+    #print('mensagem original: ' + enc.bytes_to_string(listaInts_decriptografados))
 
     # plota grafico
     for widget in frame_grafico.winfo_children():
@@ -157,40 +157,40 @@ def executar_NRZ_I(mensagem):
     global listaInts_decriptografados
 
     numericValuesString = enc.getNumericValue(mensagem)
-    print(numericValuesString)
+    #print(numericValuesString)
     stringCriptografadaValues = enc.criptografar(numericValuesString, CHAVE)
-    print(stringCriptografadaValues)
+    #print(stringCriptografadaValues)
     stringCriptografada = enc.bytes_to_string(stringCriptografadaValues)
-    print(stringCriptografada)
+    #print(stringCriptografada)
 
     # colocar msg criptografada na tela
     display_mensagem_criptografada.config(text=stringCriptografada)
 
     # mostrar bits de msg cripografada
     stringBinariaMsgCriptografada = enc.get_bits(stringCriptografadaValues)
-    print(stringBinariaMsgCriptografada)
+    #print(stringBinariaMsgCriptografada)
 
     # usar codificacao de linha
     msgCodificacaoLinha = nrzi.NRZ_I_encode(stringBinariaMsgCriptografada)
-    print(msgCodificacaoLinha)
-    print('comprimento da msg codificada: ' + str(len(msgCodificacaoLinha)))
+    #print(msgCodificacaoLinha)
+    #print('comprimento da msg codificada: ' + str(len(msgCodificacaoLinha)))
 
     # pegar tensoes, transforma em bits
     stringBinaria_tensoesParaBits = nrzi.NRZ_I_decode(msgCodificacaoLinha)
-    print('de tensoes para bits: ' + stringBinaria_tensoesParaBits)
+    #print('de tensoes para bits: ' + stringBinaria_tensoesParaBits)
 
     # pega bits, transforma em ints:
-    print('bits pra ints: ')
+    #print('bits pra ints: ')
     BitsParaListaInts = enc.BitStringToBytes(stringBinaria_tensoesParaBits)
-    print(BitsParaListaInts)
+    #print(BitsParaListaInts)
 
     # decriptografa lista de ints:
     listaInts_decriptografados = enc.decriptografar(BitsParaListaInts, CHAVE)
-    print('lista de ints originais: ')
-    print(listaInts_decriptografados)
+    #print('lista de ints originais: ')
+    #print(listaInts_decriptografados)
 
     # mensagem oriignal:
-    print('mensagem original: ' + enc.bytes_to_string(listaInts_decriptografados))
+    #print('mensagem original: ' + enc.bytes_to_string(listaInts_decriptografados))
 
     # plota grafico
     for widget in frame_grafico.winfo_children():
@@ -206,7 +206,7 @@ def executar_NRZ_I(mensagem):
 def retrieve_mensagem():
     mensagem = input_mensagem.get()
     mensagem_original = mensagem
-    print('mensagem original: ' + input_mensagem.get())
+    #print('mensagem original: ' + input_mensagem.get())
 
     if codificacao.get() == 'NRZ-L':
         executar_NRZL(mensagem_original)
@@ -214,6 +214,10 @@ def retrieve_mensagem():
         executar_RZ(mensagem_original)
     elif codificacao.get() == 'NRZ-I':
         executar_NRZ_I(mensagem_original)
+
+    # colocar msg criptografada na tela
+    display_mensagem_criptografada.config(text=stringCriptografada)
+    display_mensagem_binario.config(text=stringBinariaMsgCriptografada)
 
 def setServerData():
     client.server_address = input_IP.get()
@@ -223,7 +227,7 @@ def setServerData():
 
 
 janela = tk.Tk()
-janela.title("Codificação de linha")
+janela.title("Codificação de linha - cliente")
 janela.configure(background=BACKGROUND_COLOR)
 
 frame_input = tk.Frame(janela, background=BACKGROUND_COLOR)
@@ -266,6 +270,10 @@ label_mensagem_criptografada.grid(column=0, row=0)
 display_mensagem_criptografada = tk.Label(frame_mensagem_criptografada, background=BACKGROUND_COLOR,
                                           padx=5, pady=5)
 display_mensagem_criptografada.grid(column=0, row=1)
+label_mensagem_binario = tk.Label(frame_mensagem_criptografada, text='Mensagem em binário:', background=BACKGROUND_COLOR, padx=5, pady=5)
+label_mensagem_binario.grid(row=2, column=0)
+display_mensagem_binario = tk.Label(frame_mensagem_criptografada, background=BACKGROUND_COLOR, padx=5, pady=5)
+display_mensagem_binario.grid(row=3, column=0)
 
 frame_grafico = tk.Frame(janela, background=BACKGROUND_COLOR)
 frame_grafico.grid(row=3, column=0)

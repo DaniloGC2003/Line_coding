@@ -17,7 +17,7 @@ ADDR = (SERVER, PORT)
 FORMAT = 'utf-8'
 DISCONNECT_MESSAGE = "!DISCONNECT"
 
-BACKGROUND_COLOR = "#dde"
+BACKGROUND_COLOR = "#FFF59D"
 ENCODING = 'cp860'
 CHAVE = 76
 
@@ -42,7 +42,7 @@ listaInts_decriptografados = []
 
 def handle_client(conn, addr):
     global mensagem_recebida
-    print(f"[NEW CONNECTION] {addr} connected")
+    print(f"Mensagem recebida do endereço {addr}")
 
     connected = True
     while connected:
@@ -56,24 +56,21 @@ def handle_client(conn, addr):
                 mensagem_recebida = msg
                 connected = False
 
-            print(f"[{addr}] {msg}")
-            conn.send("Msg received".encode(FORMAT))
+            conn.send("Mensagem recebida".encode(FORMAT))
 
     conn.close()
-    print('msg recebida: ')
-    print(mensagem_recebida)
     open_window()
 
 
 def start():
     server.listen()
-    print(f"[LISTENING] Server is Listening on {SERVER}")
+    print(f"Servidor aberto no endereço {SERVER}")
     while True:
         conn, addr = server.accept()
         #thread = threading.Thread(target=handle_client, args=(conn, addr))
         #thread.start()
         handle_client(conn, addr)
-        print(f"[ACTIVE CONNECTIONS] {threading.active_count() - 1}")
+        #print(f"[ACTIVE CONNECTIONS] {threading.active_count() - 1}")
     
 
 
@@ -84,7 +81,6 @@ def open_window():
         global BitsParaListaInts
         global listaInts_decriptografados
 
-        print('printa grafico')
         #apaga elementos que estavam no frame
         for widget in frame.winfo_children():
             widget.destroy()
@@ -94,29 +90,27 @@ def open_window():
         canvas.draw()
         canvas.get_tk_widget().grid(column=0, row=6, padx=5, pady=5)
 
-        print('msg recebida list: ', end='')
-        print(mensagem_recebida_list)
+        #print('msg recebida list: ', end='')
+        #print(mensagem_recebida_list)
         stringBinaria_tensoesParaBits = nrzi.NRZ_I_decode(mensagem_recebida_list)
-        print('de tensoes para bits: ' + stringBinaria_tensoesParaBits)
+        #print('de tensoes para bits: ' + stringBinaria_tensoesParaBits)
         BitsParaListaInts = enc.BitStringToBytes(stringBinaria_tensoesParaBits)
-        print('string to byets: ', end='')
-        print(BitsParaListaInts)
+        #print('string to byets: ', end='')
+        #print(BitsParaListaInts)
 
         display_mensagem_criptografada.config(text=enc.bytes_to_string(BitsParaListaInts))
 
         listaInts_decriptografados = enc.decriptografar(BitsParaListaInts, CHAVE)
-        print('lista de ints originais: ', end='')
-        print(listaInts_decriptografados)
+        #print('lista de ints originais: ', end='')
+        #print(listaInts_decriptografados)
 
         display_mensagem_original.config(text=enc.bytes_to_string(listaInts_decriptografados))
-
 
     def executar_NRZL(frame):
         global stringBinaria_tensoesParaBits
         global BitsParaListaInts
         global listaInts_decriptografados
 
-        print('printa grafico')
         for widget in frame.winfo_children():
             widget.destroy()
         figure_grafico = pltn.plot_graph(
@@ -125,29 +119,27 @@ def open_window():
         canvas.draw()
         canvas.get_tk_widget().grid(column=0, row=6, padx=5, pady=5)
 
-        print('msg recebida list: ', end='')
-        print(mensagem_recebida_list)
+        #print('msg recebida list: ', end='')
+        #print(mensagem_recebida_list)
         stringBinaria_tensoesParaBits = nrzl.NRZ_L_decode(mensagem_recebida_list)
-        print('de tensoes para bits: ' + stringBinaria_tensoesParaBits)
+        #print('de tensoes para bits: ' + stringBinaria_tensoesParaBits)
         BitsParaListaInts = enc.BitStringToBytes(stringBinaria_tensoesParaBits)
-        print('string to byets: ', end='')
-        print(BitsParaListaInts)
+        #print('string to byets: ', end='')
+        #print(BitsParaListaInts)
 
         display_mensagem_criptografada.config(text=enc.bytes_to_string(BitsParaListaInts))
 
         listaInts_decriptografados = enc.decriptografar(BitsParaListaInts, CHAVE)
-        print('lista de ints originais: ', end='')
-        print(listaInts_decriptografados)
+        #print('lista de ints originais: ', end='')
+        #print(listaInts_decriptografados)
 
         display_mensagem_original.config(text=enc.bytes_to_string(listaInts_decriptografados))
-
 
     def executar_RZ(frame):
         global stringBinaria_tensoesParaBits
         global BitsParaListaInts
         global listaInts_decriptografados
 
-        print('printa grafico')
         #apaga elementos que estavam no frame
         for widget in frame.winfo_children():
             widget.destroy()
@@ -157,19 +149,19 @@ def open_window():
         canvas.draw()
         canvas.get_tk_widget().grid(column=0, row=6, padx=5, pady=5)
 
-        print('msg recebida list: ', end='')
-        print(mensagem_recebida_list)
+        #print('msg recebida list: ', end='')
+        #print(mensagem_recebida_list)
         stringBinaria_tensoesParaBits = rz.RZ_decode(mensagem_recebida_list)
-        print('de tensoes para bits: ' + stringBinaria_tensoesParaBits)
+        #print('de tensoes para bits: ' + stringBinaria_tensoesParaBits)
         BitsParaListaInts = enc.BitStringToBytes(stringBinaria_tensoesParaBits)
-        print('string to byets: ', end='')
-        print(BitsParaListaInts)
+        #print('string to byets: ', end='')
+        #print(BitsParaListaInts)
 
         display_mensagem_criptografada.config(text=enc.bytes_to_string(BitsParaListaInts))
 
         listaInts_decriptografados = enc.decriptografar(BitsParaListaInts, CHAVE)
-        print('lista de ints originais: ', end='')
-        print(listaInts_decriptografados)
+        #print('lista de ints originais: ', end='')
+        #print(listaInts_decriptografados)
 
         display_mensagem_original.config(text=enc.bytes_to_string(listaInts_decriptografados))
 
@@ -177,10 +169,10 @@ def open_window():
         global mensagem_recebida_list
         #transforma string de volta em lista
         mensagem_recebida_list = eval(mensagem_recebida)
-        print(mensagem_recebida_list)
+        '''print(mensagem_recebida_list)
         print(type(mensagem_recebida_list))
         print('retireive')
-        print(codificacao.get())
+        print(codificacao.get())'''
 
         if codificacao.get() == 'NRZ-I':
             executar_NRZI(frame_grafico)
@@ -189,7 +181,7 @@ def open_window():
         elif codificacao.get() == 'RZ':
             executar_RZ(frame_grafico)
 
-
+        display_mensagem_binario.config(text=stringBinaria_tensoesParaBits)
 
     def on_closing():
         if messagebox.askokcancel("Quit", "Você quer sair?"):
@@ -238,10 +230,16 @@ def open_window():
                                             padx=5)
     display_mensagem_criptografada.grid(column=0, row=1)
 
+
+    label_mensagem_binario = tk.Label(frame_mensagens, text='Mensagem em binário:', background=BACKGROUND_COLOR, padx=5, pady=5)
+    label_mensagem_binario.grid(row=2, column=0)
+    display_mensagem_binario = tk.Label(frame_mensagens, background=BACKGROUND_COLOR, padx=5, pady=5)
+    display_mensagem_binario.grid(row=3, column=0)
+
     label_mensagem_original = tk.Label(frame_mensagens, background=BACKGROUND_COLOR, padx=5, pady=5, text='Mensagem original:')
-    label_mensagem_original.grid(column=0, row=2)
+    label_mensagem_original.grid(column=0, row=4)
     display_mensagem_original = tk.Label(frame_mensagens, background=BACKGROUND_COLOR, padx=5)
-    display_mensagem_original.grid(column=0, row=3)
+    display_mensagem_original.grid(column=0, row=5)
 
     
     
@@ -252,4 +250,3 @@ def open_window():
     window_open = False
 
 start()
-open_window()
