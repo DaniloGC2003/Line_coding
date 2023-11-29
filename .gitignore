@@ -1,0 +1,5 @@
+build/
+__pycache__/
+gui_client.spec
+gui_server.spec
+tempCodeRunnerFile.py
